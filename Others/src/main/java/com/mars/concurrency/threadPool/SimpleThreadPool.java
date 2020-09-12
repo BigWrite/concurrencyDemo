@@ -82,15 +82,8 @@ public class SimpleThreadPool {
                 }
                 if (runnable != null) {
                     threadState = ThreadState.RUNNING;
-                    System.out.println(Thread.currentThread().getName() + "running");
                     runnable.run();
-                    try {
-                        Thread.sleep(10_000L);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
                     threadState = ThreadState.FREE;
-                    System.out.println(Thread.currentThread().getName() + "end");
                 }
             }
         }
@@ -99,6 +92,13 @@ public class SimpleThreadPool {
     public static void main(String[] args) {
         SimpleThreadPool threadPool = new SimpleThreadPool();
         IntStream.rangeClosed(1, 40).forEach(i -> threadPool.submit(() -> {
+            System.out.println(Thread.currentThread().getName() + "running");
+            try {
+                Thread.sleep(10_000L);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println(Thread.currentThread().getName() + "end");
         }));
 
     }
